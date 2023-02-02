@@ -20,8 +20,7 @@ const apiSlice = createSlice({
     },
     setError: (state, action) => {
       state.error = action.payload
-      state.loading = false
-    }
+      state.loading = false    }
   }
 })
 //export reducers to be used in components 
@@ -29,15 +28,19 @@ export const { setResponse, setLoading, setError } = apiSlice.actions
 //export a fetch function that dispatches the reducers 
 //function accepts a payload argument that is passed to the axios post request
 export const fetchData = payload => async dispatch => {
+  // console.log('payload:', payload, 'dispatch:', dispatch, 'fetchData:', fetchData)
   try {
     //dispatch the setLoading reducer to set loading to true
     dispatch(setLoading())
     //make an async axios post request to the server
     const response = await axios.post('http://localhost:3006/transform', payload)
     //dispatch the setResponse reducer to set the response to the response data
+    // console.log('response:', response)
+    // console.log('store.getState::',store.getState());
     dispatch(setResponse(response.data))
     //catch any errors and dispatch the setError reducer to set the error to the error message
   } catch (error) {
+    // console.log('error:', error)
     dispatch(setError(error.message))
   }
 }
@@ -45,6 +48,8 @@ export const fetchData = payload => async dispatch => {
 export const store = configureStore({
   reducer: apiSlice.reducer
 })
-
+// console.log('apiSlice:', apiSlice)
+// console.log('store:', store)
+// console.log('api', apiSlice.actions)
 
 
